@@ -15,6 +15,8 @@
 		8D255ACE0486D3F9007BF209 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
 		8D255ACF0486D3F9007BF209 /* ScreenSaver.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06F27B2DFFEEEFEF11CA0E56 /* ScreenSaver.framework */; };
 		EA4A502B1563C91F005E4CCA /* ConfigureSheet.nib in Resources */ = {isa = PBXBuildFile; fileRef = EA4A502A1563C91F005E4CCA /* ConfigureSheet.nib */; };
+		FC1A0D3B20A04FA5005E7E2C /* tw-300x.png in Resources */ = {isa = PBXBuildFile; fileRef = FC1A0D3820A04FA5005E7E2C /* tw-300x.png */; };
+		FC1A0D3C20A04FA5005E7E2C /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = FC1A0D3920A04FA5005E7E2C /* index.html */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +32,8 @@
 		EA4A502A1563C91F005E4CCA /* ConfigureSheet.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = ConfigureSheet.nib; sourceTree = "<group>"; };
 		F50079790118B23001CA0E54 /* WebSaverView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebSaverView.h; sourceTree = "<group>"; };
 		F500797A0118B23001CA0E54 /* WebSaverView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebSaverView.m; sourceTree = "<group>"; };
+		FC1A0D3820A04FA5005E7E2C /* tw-300x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tw-300x.png"; sourceTree = "<group>"; };
+		FC1A0D3920A04FA5005E7E2C /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,6 +74,8 @@
 		089C167CFE841241C02AAC07 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				FC1A0D3920A04FA5005E7E2C /* index.html */,
+				FC1A0D3820A04FA5005E7E2C /* tw-300x.png */,
 				EA4A502A1563C91F005E4CCA /* ConfigureSheet.nib */,
 				8D255AD20486D3F9007BF209 /* Info.plist */,
 				089C167DFE841241C02AAC07 /* InfoPlist.strings */,
@@ -185,6 +191,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FC1A0D3C20A04FA5005E7E2C /* index.html in Resources */,
+				FC1A0D3B20A04FA5005E7E2C /* tw-300x.png in Resources */,
 				8D255ACA0486D3F9007BF209 /* InfoPlist.strings in Resources */,
 				EA4A502B1563C91F005E4CCA /* ConfigureSheet.nib in Resources */,
 			);
@@ -236,7 +244,10 @@
 				GCC_PREFIX_HEADER = WebSaver_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Screen Savers";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = WebSaver;
+				SDKROOT = macosx;
 				WRAPPER_EXTENSION = saver;
 				ZERO_LINK = YES;
 			};
@@ -252,7 +263,10 @@
 				GCC_PREFIX_HEADER = WebSaver_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Screen Savers";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = WebSaver;
+				SDKROOT = macosx;
 				WRAPPER_EXTENSION = saver;
 			};
 			name = Release;

@@ -26,7 +26,7 @@ static NSString * const USERSCRIPT_KEY = @"UserScript";
 static NSString * const REFRESH_INTERVAL_KEY = @"RefreshInterval";
 static NSString * const REFRESH_UNITS_KEY = @"RefreshUnits";
 
-static NSString * const DEFAULT_URL = @"https://github.com/tlrobinson/WebSaver";
+static NSString * const DEFAULT_URL = @"your apikey here";
 static NSString * const DEFAULT_USERSCRIPT = @"document.body.style.backgroundColor = 'green';";
 static double const DEFAULT_REFRESH_INTERVAL = 1.0;
 static long const DEFAULT_REFRESH_UNITS = REFRESH_MINUTES;
@@ -88,7 +88,7 @@ static long const DEFAULT_REFRESH_UNITS = REFRESH_MINUTES;
 		}
 	}
 
-	[url setStringValue:[self url]];
+    [url setStringValue:[self url]];
 	[refreshInterval setDoubleValue:[self refreshInterval]];
     [refreshUnits selectItemWithTag:[self refreshUnits]];
 	[[userScript textStorage] setAttributedString:[[NSAttributedString alloc] initWithString:[self userScript]]];
@@ -110,7 +110,10 @@ static long const DEFAULT_REFRESH_UNITS = REFRESH_MINUTES;
 
 - (void)loadWebView
 {
-    [webView setMainFrameURL:[defaults valueForKey:URL_KEY]];
+    
+    NSURL* indexHTMLDocumentURL = [NSURL URLWithString:[[[NSURL fileURLWithPath:[[NSBundle bundleForClass:self.class].resourcePath stringByAppendingString:@"/index.html"] isDirectory:NO] description] stringByAppendingFormat:@"?screensaver=1&apikey=%@%@", self.isPreview ? @"&is_preview=1" : @"", [defaults valueForKey:URL_KEY] ]];
+    
+      [webView.mainFrame loadRequest:[NSURLRequest requestWithURL:indexHTMLDocumentURL cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0]];
 
     if (refreshTimer)
     {
@@ -137,7 +140,7 @@ static long const DEFAULT_REFRESH_UNITS = REFRESH_MINUTES;
 
 - (void)webView:(WebView *)sender didFinishLoadForFrame:(WebFrame *)frame
 {
-    [sender stringByEvaluatingJavaScriptFromString:[defaults valueForKey:USERSCRIPT_KEY]];
+    // [sender stringByEvaluatingJavaScriptFromString:@"app.name = 'slartibartfast';"];
 }
 
 // IBActions
@@ -152,7 +155,7 @@ static long const DEFAULT_REFRESH_UNITS = REFRESH_MINUTES;
 
 	[[NSApplication sharedApplication] endSheet:configSheet];
 
-    [self loadWebView];
+    // [self loadWebView];
 }
 - (IBAction)cancelClick:(id)sender
 {
