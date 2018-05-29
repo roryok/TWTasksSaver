@@ -1,18 +1,19 @@
-WebSaver: A WebKit-based Mac OS X screensaver
+TWTaskSaver: A WebKit-based Mac OS X screensaver
 =============================================
 
-A Mac OS X screensaver which simply embeds WebKit to display a webpage or JavaScript application. Perfect for Canvas animations.
+This is a screensaver which connects to Teamwork Projects and shows "My tasks"
 
-You can specify a web url as screen saver.
+It's based on WebSaver by Tom Robinson
 
-This version includes a simple Preferences sheet.
+https://github.com/tlrobinson/WebSaver
+
 
 Instructions
 ------------
 
 Install the pre-built version of WebSaver by double-clicking "WebSaver/build/Release/Web.saver".
 
-Replace "Web.saver/Contents/Resources/index.html" with your own web page or application.
+Choose "Screensaver Options" and enter your Teamwork Projects API key in the box.
 
 To build from source, do the following:
 
@@ -22,15 +23,11 @@ To build from source, do the following:
 
 3. Double-click the built Web.saver to install.
 
-Notes
------
-
-* Change the "Product Name" in the "Web" target if you are distributing a screensaver to prevent conflicts with others.
 
 License
 -------
 
-Copyright (c) 2013, Thomas Robinson <http://tlrobinson.net/>
+WebSaver Copyright (c) 2013, Thomas Robinson <http://tlrobinson.net/>
 
 Copyright (c) 2012, Senseg Ltd <http://www.senseg.com>
 
