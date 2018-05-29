@@ -28,7 +28,7 @@
 		32DBCFA80370C50100C91783 /* WebSaver_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebSaver_Prefix.pch; sourceTree = "<group>"; };
 		4D856DCD10845D98006C781A /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = /System/Library/Frameworks/WebKit.framework; sourceTree = "<absolute>"; };
 		8D255AD20486D3F9007BF209 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		8D255AD30486D3F9007BF209 /* WebSaver.saver */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WebSaver.saver; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D255AD30486D3F9007BF209 /* TWTaskSaver.saver */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TWTaskSaver.saver; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA4A502A1563C91F005E4CCA /* ConfigureSheet.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = ConfigureSheet.nib; sourceTree = "<group>"; };
 		F50079790118B23001CA0E54 /* WebSaverView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebSaverView.h; sourceTree = "<group>"; };
 		F500797A0118B23001CA0E54 /* WebSaverView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebSaverView.m; sourceTree = "<group>"; };
@@ -114,7 +114,7 @@
 		19C28FB8FE9D52D311CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8D255AD30486D3F9007BF209 /* WebSaver.saver */,
+				8D255AD30486D3F9007BF209 /* TWTaskSaver.saver */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -159,7 +159,7 @@
 			name = Web;
 			productInstallPath = "$(HOME)/Library/Screen Savers";
 			productName = WebSaver;
-			productReference = 8D255AD30486D3F9007BF209 /* WebSaver.saver */;
+			productReference = 8D255AD30486D3F9007BF209 /* TWTaskSaver.saver */;
 			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
@@ -246,7 +246,7 @@
 				INSTALL_PATH = "$(HOME)/Library/Screen Savers";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				ONLY_ACTIVE_ARCH = NO;
-				PRODUCT_NAME = WebSaver;
+				PRODUCT_NAME = TWTaskSaver;
 				SDKROOT = macosx;
 				WRAPPER_EXTENSION = saver;
 				ZERO_LINK = YES;
@@ -265,7 +265,7 @@
 				INSTALL_PATH = "$(HOME)/Library/Screen Savers";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				ONLY_ACTIVE_ARCH = NO;
-				PRODUCT_NAME = WebSaver;
+				PRODUCT_NAME = TWTaskSaver;
 				SDKROOT = macosx;
 				WRAPPER_EXTENSION = saver;
 			};
