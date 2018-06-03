@@ -1,0 +1,246 @@
+<html manifest="index.appcache">
+  <head>
+    <meta charset="utf-8">
+    <title>Teamwork Tasks</title>
+    <meta name="viewport" content="width=720">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="apple-touch-icon-57x57-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="apple-touch-icon-72x72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="apple-touch-icon-114x114-precomposed.png">
+    <style type="text/css">
+        body {
+            background: #eee;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            font-size: 1em;
+            padding: 2em;
+        }
+        ul {
+            list-style: none;
+            padding: 0; margin: 0;
+        }
+        ul li {
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+		ul.subtasks li {
+            margin-top: 10px;
+            border-top: 1px solid #ccc;
+        }
+        ul li:last-child {
+            border: none;
+        }
+        p{
+            padding: 10ps;
+        }
+        .avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 100px;
+        }
+        li div {
+            display: inline;
+            line-height: 1em;
+            margin: 5px;
+        }
+        .subtask {
+            background: #ddd;
+            border: 1px solid #bbb;
+            border-radius: 2px;
+            font-size: smaller;
+            padding: 3px
+        }
+        .bcol {
+            background: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: smaller;
+            padding: 3px
+        }
+		.colorball {
+			font-size: 2em;
+    		vertical-align: sub;
+		}
+        .tag {
+            color: #fff;
+            border-radius: 5px;
+            font-size: smaller;
+            padding: 3px
+        }
+        .tag i {
+            font-size: x-small;
+            opacity: 0.5;
+        }
+        .btn-config {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            width:64px;height:64px;
+        }
+        .btn-save {
+            padding: 10px;
+            font-size: 1em;
+        }
+        input {
+            width: 80%;
+            padding: 10px;
+            font-size: 1em;
+        }
+        .form > * {
+            display: block;
+            margin: 10px;
+        }
+		.check{
+			font-size: 2em;
+    		vertical-align: sub;
+			color: #CCC;
+		}
+		.check.completed {
+			color: #0d0;
+		}
+    </style>
+  </head>
+  <body>
+      <div id="app">
+          <img src="tw-300x.png" />
+          <div>
+              <span style="color:red;" v-if="errors">{{ errors }}</span>
+              <h1 v-if="name">
+                  {{ name }}'s Tasks
+              </h1>
+              <ul>
+                  <li v-for="task in tasks">
+					  <span class="check" v-if="!task.completed">☐</span>
+					  <span class="check completed" v-if="task.completed">☑</span>
+					  <!-- <div class="uname" v-if="task['responsible-party-names']">{{ task['responsible-party-names'] }}</div> -->
+					  <div class="subtask" v-if="task.parentTaskId > 0">subtask</div>
+                      <div>
+                          {{ task.content }}
+                          <span class="bcol" v-if="task.boardColumn"><span class="colorball" :style="{ color: task.boardColumn.color }">•</span>{{ task.boardColumn.name.replace(/ /g,'&nbsp;') }}</span>
+                          <div class="tags" v-if="task.tags">
+                              <div v-for="tag in task.tags" class="tag" :style="{ background: tag.color }">
+                                  {{ tag.name }}<i>x</i>
+                              </div>
+                          </div>
+                      </div>
+                  </li>
+              </ul>
+          </div>
+      </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            message: 'Hello Vue!',
+            avatarUrl: '',
+            name: '',
+            apiKey: '',
+            tasks: [],
+            showConfig: false,
+            errors: "",
+            domain: '',
+            userId: '',
+            userIcon: '',
+                      url: ''
+        },
+        methods: {
+            // authenticate with TW projects API
+            auth() {
+                let vm = this
+                return new Promise((resolve, reject) => {
+                    fetch('https://authenticate.teamwork.com/authenticate.json', {
+                        cache: 'no-cache',
+                        credentials: 'same-origin',
+                        headers: {
+                        'Authorization' : 'Basic ' + btoa(vm.apiKey + ':x'),
+                        'user-agent': 'Mozilla/4.0 MDN Example',
+                        },
+                    })
+                    .then(function(response) {
+                        if (!response.ok) throw Error(response.statusText);
+                        return response.json();
+                    })
+                    .then(function(data) {
+                        console.log(data);
+                        vm.domain = data.account.URL;
+                        vm.userId = data.account.userId;
+                        vm.userIcon = data.account['avatar-url'];
+                        vm.name = data.account.firstname;
+                        resolve(vm)
+                    })
+                    .catch(function(error) {
+                        reject(error);
+                    });
+                })
+            },
+            // get tasks
+            getTasks() {
+                let vm = this
+                let params = [
+                    '?getFiles=false',
+                    '&responsible-party-ids=' + vm.userId,
+                    '&stamp=' + new Date().getTime(),
+                    '&getSubTasks=yes',
+                    '&sort=duedate'
+                ]
+                return new Promise((resolve, reject) => {
+                    fetch(vm.domain + 'tasks.json' + params.join(''), {
+                        cache: 'no-cache',
+                        credentials: 'same-origin',
+                        headers: {
+                        'Authorization' : 'Basic ' + btoa(vm.apiKey + ':x'),
+                        'user-agent': 'Mozilla/4.0 MDN Example',
+                        },
+                    })
+                    .then(function(response) {
+                        if (!response.ok) throw Error(response.statusText);
+                        return response.json();
+                    })
+                    .then(function(data) {
+                        console.log(data);
+                        resolve(data["todo-items"])
+                    })
+                    .catch(function(error) {
+                        reject(error);
+                    });
+                })
+            },
+            // show sample data if apikey is not present
+            showSampleData() {
+                var vm = this;
+                vm.name = "Yoda"
+                vm.tasks = [
+                    { content: "1. go to screensaver options" },
+                    { content: "2. enter your TW ApiKey and save" }
+                ]
+            },
+            // auth and get tasks
+            bindData() {
+                var vm = this;
+                vm.auth().then((val) => {
+                    vm.getTasks().then((tasks) => {
+                        vm.tasks = tasks
+                    },(err) => {
+                        console.log("rejected: ", err)
+                        vm.errors = err.toString()
+                    })
+                },(err) => {
+                    console.log("rejected: ", err)
+                    vm.errors = err.toString()
+                });
+            }
+        },
+        mounted() {
+			let vm = this;
+			vm.url = location.href
+			var captured = /apikey=([^&]+)/.exec(vm.url);
+			vm.apiKey = captured ? (captured.length > 0 ? captured[1] : "" ) : "";
+			if (vm.apiKey.length == 0 || vm.apiKey.indexOf(' ') > -1)
+				vm.showSampleData()
+			else
+				vm.bindData()
+        }
+    });
+    </script>
+  </body>
+</html>
